@@ -1,0 +1,389 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\headheight 1cm
+\headsep 1cm
+\footskip 1cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Backpropagation
+\end_layout
+
+\begin_layout Standard
+Backpropagation computes the gradient of a loss function with respect to
+ the weights of the network for a single input-output example, and does
+ so efficiently, computing the gradient one layer at a time.
+ 
+\end_layout
+
+\begin_layout Standard
+A neural network is a combination of function composition and matrix multiplicat
+ion:
+\begin_inset Formula 
+\begin{equation}
+g(x)=f^{L}\left(W^{L}f^{L-1}\left(W^{L-1}\cdots f^{1}(W^{1}x\right)\right)
+\end{equation}
+
+\end_inset
+
+A training set is composed of input-output pairs, 
+\begin_inset Formula $\left\{ \left(x_{i},y_{i}\right)\right\} $
+\end_inset
+
+.
+ For each input-output pair 
+\begin_inset Formula $\left(x_{i},y_{i}\right)$
+\end_inset
+
+ in the training set, the loss of the model on that pair is the cost of
+ the difference between the predicted output 
+\begin_inset Formula $g(x_{i})$
+\end_inset
+
+ and the target output 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+.
+ The cost is denoted 
+\begin_inset Formula $C(y_{i},g(x_{i}))$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsection
+Matrix multiplication
+\end_layout
+
+\begin_layout Standard
+For the basic case of a feedforward network, where nodes in each layer are
+ connected only to nodes in the immediate next layer, backpropagation can
+ be understood by matrix multiplication.
+ Given an input-output pair 
+\begin_inset Formula $\left(x,y\right)$
+\end_inset
+
+, the loss is 
+\begin_inset Formula 
+\begin{equation}
+C\left(y,f^{L}\left(W^{L}f^{L-1}\left(W^{L-1}\cdots f^{1}\left(W^{1}x\right)\right)\right)\right).
+\end{equation}
+
+\end_inset
+
+To compute this, one starts with the input 
+\begin_inset Formula $x$
+\end_inset
+
+ and works forward.
+ We denote the weighted input of each hidden layer as 
+\begin_inset Formula $z^{\ell}$
+\end_inset
+
+ and the output of a hidden layer 
+\begin_inset Formula $\ell$
+\end_inset
+
+ as the activation 
+\begin_inset Formula $a^{\ell}$
+\end_inset
+
+.
+ 
+\begin_inset Formula 
+\begin{align}
+W^{\ell}\left(\cdots\right) & =z^{\ell}\\
+f^{\ell}\left(W^{\ell}\cdots\right) & =a^{\ell}
+\end{align}
+
+\end_inset
+
+For backpropagation, the activation 
+\begin_inset Formula $a^{\ell}$
+\end_inset
+
+ as well as the derivatives 
+\begin_inset Formula $\left(f^{\ell}\right)^{\prime}$
+\end_inset
+
+ (evaluated at 
+\begin_inset Formula $z^{\ell}$
+\end_inset
+
+) must be cached for use during the backwards pass.
+ 
+\end_layout
+
+\begin_layout Description
+Exercise Write the expression for the derivative 
+\begin_inset Formula $\frac{dC}{dx}$
+\end_inset
+
+ in terms of 
+\begin_inset Formula $a^{\ell}$
+\end_inset
+
+ and 
+\begin_inset Formula $z^{\ell}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Description
+Answer Suppose that 
+\begin_inset Formula $g(x)=Wx$
+\end_inset
+
+.
+ Then we have 
+\begin_inset Formula 
+\begin{equation}
+C(y,g(x))=C(y,W^{1}x)=C(y,z^{1})
+\end{equation}
+
+\end_inset
+
+and 
+\begin_inset Formula 
+\begin{equation}
+\frac{dC}{dx}=\frac{dC}{dz^{1}}\frac{\partial z^{1}}{\partial x}.
+\end{equation}
+
+\end_inset
+
+Suppose now that 
+\begin_inset Formula $g(x)=f^{1}\left(W^{1}x\right)$
+\end_inset
+
+, then 
+\begin_inset Formula 
+\begin{align}
+\frac{dC}{dx} & =\frac{dC}{df^{1}\left(W^{1}x\right)}\frac{df^{1}\left(W^{1}x\right)}{d\left(W^{1}x\right)}\frac{\partial\left(W^{1}x\right)}{\partial x}\\
+ & =\frac{dC}{da^{1}}\frac{da^{1}}{dz^{1}}\frac{dz^{1}}{dx}.
+\end{align}
+
+\end_inset
+
+In general, 
+\begin_inset Formula 
+\begin{equation}
+\frac{dC}{dx}=\prod_{i=L}^{1}\frac{da^{i}}{dz^{i}}\frac{dz^{i}}{da^{i-1}}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $a^{0}=x$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Description
+Exercise Explain why 
+\begin_inset Formula $\frac{da^{L}}{dz^{L}}$
+\end_inset
+
+ is a diagonal matrix.
+ 
+\end_layout
+
+\begin_layout Description
+Answer Not sure.
+ 
+\end_layout
+
+\begin_layout Description
+Exercise Evaluate 
+\begin_inset Formula $\frac{df^{\ell}\left(W^{\ell}x\right)}{d\left(W^{\ell}x\right)}\frac{\partial\left(W^{\ell}x\right)}{\partial x}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Description
+Answer 
+\begin_inset Formula $\frac{df^{\ell}\left(W^{\ell}x\right)}{d\left(W^{\ell}x\right)}\frac{\partial\left(W^{\ell}x\right)}{\partial x}=\left(f^{\ell}\right)^{\prime}\cdot W^{\ell}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The gradient 
+\begin_inset Formula $\nabla$
+\end_inset
+
+ is the transpose of the derivative of the output in terms of the intput,
+ so the matrices are transposed and the order of multiplication is reversed,
+ but the entries are the same.
+ 
+\begin_inset Formula 
+\begin{equation}
+\nabla_{x}C=\left(W^{1}\right)^{T}\cdot\left(f^{1}\right)^{\prime}\cdot\dots\cdot\left(W^{L}\right)^{T}\cdot\left(f^{L}\right)^{\prime}\cdot W^{1}\cdot\nabla_{a^{L}}C.
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+Exercise Compute the gradient of a the following cost function by hand to
+ show that this works.
+ Format your answer in Markdown.
+ 
+\begin_inset Formula 
+\begin{align}
+C(y,g(x)) & =(y-g(x))^{2}\\
+g(x) & =f^{1}\left(W^{1}x\right)\\
+f^{1}(x) & =x\\
+W^{1} & =\left(\begin{array}{cc}
+2 & 1\\
+1 & 2
+\end{array}\right)
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+Answer XXX
+\end_layout
+
+\begin_layout Standard
+Backpropagation consists in evaluating the gradient expression from right
+ to left.
+ The 
+\begin_inset Quotes eld
+\end_inset
+
+error at level 
+\begin_inset Formula $\ell$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ is the gradient of the input values at level 
+\begin_inset Formula $\ell$
+\end_inset
+
+, represented as 
+\begin_inset Formula $\delta^{\ell}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+\delta^{\ell}\equiv\left(f^{\ell}\right)^{\prime}\cdot\left(W^{\ell+1}\right)^{T}\cdot\dots\cdot\left(W^{L}\right)^{T}\cdot\left(f^{L}\right)^{\prime}\cdot\nabla_{a^{L}}C.
+\end{equation}
+
+\end_inset
+
+The gradient of the weights in layer 
+\begin_inset Formula $\ell$
+\end_inset
+
+ is then 
+\begin_inset Formula 
+\begin{equation}
+\nabla_{W^{\ell}}C=\delta^{\ell}\left(a^{\ell-1}\right)^{T}.
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
