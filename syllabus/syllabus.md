@@ -164,7 +164,33 @@ _The purpose of this lab is to show how much image processing can be accomplishe
 
 
 ## Lab 5: Template matching
+_The purpose of this lab is to show how to use template matching to find objects in an image._
+
+**Template matching**
+- Describe the concept of template matching.
+
+### <span style="color:red;"> Exercise </span>
+- Implement template matching in numpy. 
+- Use matrix multiplication, as in the convolution lab. 
+
+### <span style="color:red;"> Exercise </span>
+- Implement template matching in OpenCV.
+
+### <span style="color:red;"> Exercise </span>
+- Use the template matching algorithm in OpenCV to find the location of the eyes in an image of a face.
+- Apply the algorithm to all of the provided images. 
+
+
 ## Lab 6: Motion tracking
+_The purpose of this lab is to extend the concept of template matching to track objects in a video._
+
+**Motion tracking**
+- Describe the concept of motion tracking.
+
+### <span style="color:red;"> Exercise </span>
+- Use the template matching algorithm to track a bouncing ball in a video.
+
+
 ## Lab 7: Graphics
 ## Lab 8: Reverse 3D projection
 ## Lab 9: Error correction
