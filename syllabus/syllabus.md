@@ -198,3 +198,28 @@ _The purpose of this lab is to extend the concept of template matching to track 
 ## Lab 11: Image compression
 ## Lab 12: Finite difference equations
 ## Lab 13: Neural networks
+
+## Other ideas
+- Linear regression
+- Gradient descent
+
+## Kaitlyn's priorities
+- Linear transformations
+    - Images
+- Convolutions with matrices
+    - Images, line and edge detectors etc.
+- Gradient descent
+> This is equivalent to solving $Ax=b$ for $x$. For example, let's try to solve the equation $\frac{d}{dt} v_n = a_n$ for $v_n$. You can represent $\frac{d}{dt}$ as a matrix. Gradient descent comes in in solving the equation. We can compare the time to solve using gradient descent vs. reduced row echelon. 
+- Linear vs. logistic regression
+    - Accelerometers 
+> If you have an velocity vs. time graph, linear regression doesn't give you a very good idea of when motion starts. But an S-curve gives you a much better idea. They can learn linear integration to go between acceleration and velocity. 
+- Neural networks?
+> Classify letters and numbers. 
+- Wave equations
+> Speaker, microphone, eigenvalues
+> Optimizers
+- Nelder-Mead
+- Gaussian-process regression
+- L-BFGS-B
+- Simplex method
+- Particle swarm
