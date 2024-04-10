@@ -1,3 +1,9 @@
+"""
+This script reads the acceleration and gyroscope data from the MPU6050 sensor
+and prints the values to the console.
+"""
+
+
 from machine import Pin, I2C
 import utime
 
